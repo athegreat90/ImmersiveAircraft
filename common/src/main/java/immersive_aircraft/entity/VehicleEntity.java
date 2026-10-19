@@ -89,7 +89,6 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
 
     protected static final EntityDataAccessor<Integer> BOOST = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.INT);
 
-    private final InterpolationHandler interpolation = new InterpolationHandler(this, 10);
     protected int lastTriedToExit;
 
     protected float movementX;
@@ -535,8 +534,8 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
     }
 
     @Override
-    public InterpolationHandler getInterpolation() {
-        return interpolation;
+    protected InterpolationHandler createInterpolationHandler() {
+        return LinearInterpolationHandler.create(this, 10);
     }
 
     protected boolean useAirplaneControls() {
@@ -557,10 +556,11 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
         }
 
         if (pilot != previousPilot) {
-            if (pilot instanceof Player player && player.isLocalPlayer() && interpolation.hasActiveInterpolation()) {
-                setPos(interpolation.position());
-                setRot(interpolation.yRot(), interpolation.xRot());
-                interpolation.cancel();
+            if (pilot instanceof Player player && player.isLocalPlayer() && getInterpolation().hasActiveInterpolation()) {
+                var target = getInterpolation().target();
+                setPos(target.position());
+                setRot(target.yRot(), target.xRot());
+                getInterpolation().cancel();
             }
             setInputs(0, 0, 0);
             pressingInterpolatedX.reset(0);
@@ -743,10 +743,10 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
 
     private void handleClientSync() {
         if (isLocalInstanceAuthoritative()) {
-            interpolation.cancel();
+            getInterpolation().cancel();
             syncPacketPositionCodec(getX(), getY(), getZ());
         } else {
-            interpolation.interpolate();
+            getInterpolation().interpolate();
         }
     }
 

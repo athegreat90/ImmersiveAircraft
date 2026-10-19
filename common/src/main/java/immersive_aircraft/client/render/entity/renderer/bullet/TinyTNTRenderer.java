@@ -53,9 +53,9 @@ public class TinyTNTRenderer extends EntityRenderer<TinyTNT, TinyTNTRenderer.Tin
             matrixStack.scale(g, g, g);
         }
         matrixStack.scale(0.375f, 0.375f, 0.375f);
-        matrixStack.mulPose(Axis.YP.rotationDegrees(-90.0f));
+        matrixStack.rotate(Axis.YP.rotationDegrees(-90.0f));
         matrixStack.translate(-0.5, -0.5, 0.5);
-        matrixStack.mulPose(Axis.YP.rotationDegrees(90.0f));
+        matrixStack.rotate(Axis.YP.rotationDegrees(90.0f));
         blockRenderState.clear();
         blockModelResolver.update(blockRenderState, Blocks.TNT.defaultBlockState(), BlockDisplayContext.create());
         TntMinecartRenderer.submitWhiteSolidBlock(blockRenderState, matrixStack, collector, state.light, state.fuse / 5 % 2 == 0, -1);

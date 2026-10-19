@@ -57,9 +57,9 @@ public abstract class VehicleEntityRenderer<T extends VehicleEntity> extends Ent
         matrixStack.pushPose();
 
         // Rotation
-        matrixStack.mulPose(Axis.YP.rotationDegrees(-state.yaw));
-        matrixStack.mulPose(Axis.XP.rotationDegrees(entity.getViewXRot(state.tickDelta)));
-        matrixStack.mulPose(Axis.ZP.rotationDegrees(entity.getRoll(state.tickDelta)));
+        matrixStack.rotate(Axis.YP.rotationDegrees(-state.yaw));
+        matrixStack.rotate(Axis.XP.rotationDegrees(entity.getViewXRot(state.tickDelta)));
+        matrixStack.rotate(Axis.ZP.rotationDegrees(entity.getRoll(state.tickDelta)));
 
         // Render model, weapons, etc.
         renderLocal(entity, state.yaw, state.tickDelta, matrixStack, peek, vertexConsumerProvider, state.light);
@@ -78,7 +78,7 @@ public abstract class VehicleEntityRenderer<T extends VehicleEntity> extends Ent
             j = 0.0f;
         }
         if (h > 0.0f) {
-            matrixStack.mulPose(Axis.XP.rotationDegrees(Mth.sin(h) * h * j / 10.0f * (float) entity.getHurtDir()));
+            matrixStack.rotate(Axis.XP.rotationDegrees(Mth.sin(h) * h * j / 10.0f * (float) entity.getHurtDir()));
         }
 
         // Updated variables
@@ -109,7 +109,7 @@ public abstract class VehicleEntityRenderer<T extends VehicleEntity> extends Ent
     }
 
     @Override
-    public boolean shouldRender(T entity, Frustum frustum, double x, double y, double z) {
+    public boolean shouldRender(T entity, Frustum frustum, double x, double y, double z, float partialTicks) {
         if (!entity.shouldRender(x, y, z)) {
             return false;
         }

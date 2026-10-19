@@ -28,7 +28,6 @@ public final class ClientNeoForge {
         modEventBus.addListener(NeoForgeOverlayRenderer::registerGuiOverlays);
         networkHandler.registerClientPayloads(modEventBus);
         NeoForge.EVENT_BUS.addListener(ClientNeoForge::onClientStart);
-        NeoForge.EVENT_BUS.addListener(ClientNeoForge::onClientLogin);
         NeoForge.EVENT_BUS.addListener(ClientNeoForge::onClientLogout);
     }
 
@@ -58,11 +57,6 @@ public final class ClientNeoForge {
         }
 
         ClientMain.tick();
-    }
-
-    @SubscribeEvent
-    public static void onClientLogin(ClientPlayerNetworkEvent.LoggingIn event) {
-        CobaltFuelRegistryImpl.setFuelValues(event.getPlayer().level().fuelValues());
     }
 
     @SubscribeEvent

@@ -1,13 +1,14 @@
 def platform = project.name
 def controllers = [
         controlify      : "maven.modrinth:controlify:${rootProject.controlify_version}",
-        controllable    : "curse.maven:controllable-317269:${rootProject.property("controllable_${platform}_version")}",
+        controllable    : files(rootProject.file("local-dependencies/controllable-neoforge-0.26.2+26.3-signed.jar")),
         midnightcontrols: "maven.modrinth:midnightcontrols:${rootProject.midnightcontrols_version}-${platform}"
 ]
 
 dependencies {
     controllers.values().each { library ->
-        add("compileOnly", library) { transitive false }
+        def dependency = add("compileOnly", library)
+        if (dependency instanceof ModuleDependency) dependency.transitive = false
     }
 }
 
@@ -16,6 +17,9 @@ if (selected != "none" && !controllers.containsKey(selected)) {
     throw new GradleException("Unknown controller_mod '${selected}'; choose none or ${controllers.keySet().join(', ')}")
 }
 if (selected == "none") return
+if (selected == "midnightcontrols") {
+    throw new GradleException("MidnightControls 1.12.1 targets GLFW/26.2; no verified SDL/26.3 runtime is available. Use none, controlify, or controllable.")
+}
 
 // Keep controller test mods out of NeoForge's dedicated-server classpath.
 if (platform == "neoforge") {
@@ -29,10 +33,11 @@ if (platform == "neoforge") {
 def runtimeConfiguration = platform == "fabric" ? "runtimeOnly" : "controllerTestRuntimeOnly"
 
 dependencies {
-    add(runtimeConfiguration, controllers[selected]) { transitive false }
+    def controllerDependency = add(runtimeConfiguration, controllers[selected])
+    if (controllerDependency instanceof ModuleDependency) controllerDependency.transitive = false
     if (selected == "controlify") {
         add(runtimeConfiguration, "maven.modrinth:yacl:${rootProject.yacl_version}-${platform}") { transitive false }
     } else if (selected == "controllable") {
-        add(runtimeConfiguration, "curse.maven:framework-549225:${rootProject.property("framework_${platform}_version")}") { transitive false }
+        add(runtimeConfiguration, files(rootProject.file("local-dependencies/framework-neoforge-0.13.27+26.3-signed.jar")))
     }
 }

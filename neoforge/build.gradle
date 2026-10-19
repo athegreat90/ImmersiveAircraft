@@ -53,6 +53,11 @@ neoForge {
             sourceSet(sourceSets.main)
         }
     }
+
+    unitTest {
+        enable()
+        testedMod = mods.immersive_aircraft
+    }
 }
 
 configurations {
@@ -60,6 +65,10 @@ configurations {
 }
 
 dependencies {
+    testImplementation platform("org.junit:junit-bom:5.13.4")
+    testImplementation "org.junit.jupiter:junit-jupiter"
+    testImplementation "net.neoforged:testframework:${neoforge_version}"
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher"
     jarJar(implementation("org.mariuszgromada.math:MathParser.org-mXparser:5.2.1")) {
         version {
             strictly "[5.2.1]"
@@ -68,10 +77,21 @@ dependencies {
     }
 
     compileOnly "me.shedaniel.cloth:cloth-config-neoforge:${cloth_version}"
+    // MidnightControls' last published API exposes GLFWGamepadState. Compilation
+    // only: Minecraft 26.3 itself uses SDL; no GLFW library or native is bundled.
+    compileOnly "org.lwjgl:lwjgl-glfw:3.4.3"
 
     compileOnly "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"
     compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
-    localRuntime "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
+    // Install JEI manually for client integration testing; dedicated-server
+    // development runs use only required runtime dependencies.
+}
+
+tasks.named("test", Test).configure {
+    useJUnitPlatform()
+    maxHeapSize = "2G"
+    maxParallelForks = 1
+    jvmArgs "-XX:ActiveProcessorCount=3"
 }
 
 apply from: rootProject.file("gradle/controller-dependencies.gradle")

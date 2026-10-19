@@ -10,7 +10,7 @@ displayName = "Immersive Aircraft"
 displayURL = "https://www.curseforge.com/minecraft/mc-mods/immersive-aircraft"
 authors = "Luke100000"
 description = "A bunch of rustic aircraft to travel, transport, and explore!"
-logoFile = "icon.png"
+iconFile = "icon.png"
 itemIcon = "immersive_aircraft:biplane"
 
 [[mixins]]
@@ -22,7 +22,7 @@ file = "META-INF/accesstransformer.cfg"
 [[dependencies.immersive_aircraft]]
 modId = "neoforge"
 type = "required"
-versionRange = "[${neoforge_version},)"
+versionRange = "[${neoforge_version},26.4)"
 ordering = "NONE"
 side = "BOTH"
 
@@ -48,6 +48,8 @@ side = "CLIENT"
 
 [[dependencies.immersive_aircraft]]
 modId = "midnightcontrols"
-type = "optional"
+type = "incompatible"
+versionRange = "(,1.12.1]"
+reason = "MidnightControls through 1.12.1 uses GLFW and is incompatible with the Minecraft 26.3 SDL backend."
 ordering = "AFTER"
 side = "CLIENT"

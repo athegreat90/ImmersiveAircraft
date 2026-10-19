@@ -54,7 +54,7 @@ public class NeoForgeBusEvents {
 
     @SubscribeEvent
     public static void onServerStarted(ServerStartedEvent event) {
-        CobaltFuelRegistryImpl.setFuelValues(event.getServer().overworld().fuelValues());
+        CobaltFuelRegistryImpl.setFuelValues(event.getServer().overworld());
     }
 
     @SubscribeEvent
@@ -64,7 +64,7 @@ public class NeoForgeBusEvents {
 
     @SubscribeEvent
     public static void onDatapackSync(OnDatapackSyncEvent event) {
-        CobaltFuelRegistryImpl.setFuelValues(event.getPlayerList().getServer().overworld().fuelValues());
+        CobaltFuelRegistryImpl.setFuelValues(event.getPlayerList().getServer().overworld());
         if (event.getPlayer() != null) {
             NetworkHandler.sendToPlayer(new VehicleUpgradesMessage(), event.getPlayer());
             NetworkHandler.sendToPlayer(new AircraftDataMessage(), event.getPlayer());

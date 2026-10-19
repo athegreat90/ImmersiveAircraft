@@ -79,6 +79,16 @@ public class DeferredRenderBuffer {
         }
 
         @Override
+        public VertexConsumer setUv3(float u, float v) {
+            if (current != null) {
+                current.decalU = u;
+                current.decalV = v;
+                current.hasDecalUv = true;
+            }
+            return this;
+        }
+
+        @Override
         public VertexConsumer setNormal(float x, float y, float z) {
             if (current != null) {
                 current.normalX = x;
@@ -106,6 +116,9 @@ public class DeferredRenderBuffer {
         private float v;
         private int overlay;
         private int light;
+        private float decalU;
+        private float decalV;
+        private boolean hasDecalUv;
         private float normalX;
         private float normalY = 1.0f;
         private float normalZ;
@@ -123,6 +136,9 @@ public class DeferredRenderBuffer {
                     .setOverlay(overlay)
                     .setLight(light)
                     .setNormal(normalX, normalY, normalZ);
+            if (hasDecalUv) {
+                output.setUv3(decalU, decalV);
+            }
         }
     }
 }

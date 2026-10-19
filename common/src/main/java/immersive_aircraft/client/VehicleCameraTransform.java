@@ -16,8 +16,8 @@ public final class VehicleCameraTransform {
     public static void apply(PoseStack poseStack, float partialTicks, Entity entity, VehicleEntity vehicle, float cameraXRot, float cameraYRot) {
         // rotate camera
         if (vehicle.adaptPlayerRotation && !MouseFlight.isEnabled(vehicle)) {
-            poseStack.mulPose(Axis.ZP.rotationDegrees(vehicle.getRoll(partialTicks)));
-            poseStack.mulPose(Axis.XP.rotationDegrees(vehicle.getViewXRot(partialTicks)));
+            poseStack.rotate(Axis.ZP.rotationDegrees(vehicle.getRoll(partialTicks)));
+            poseStack.rotate(Axis.XP.rotationDegrees(vehicle.getViewXRot(partialTicks)));
         }
 
         // fetch eye offset
@@ -45,10 +45,10 @@ public final class VehicleCameraTransform {
         offset.negate().rotate(quaternion);
 
         // apply camera offset
-        poseStack.mulPose(Axis.XP.rotationDegrees(cameraXRot));
-        poseStack.mulPose(Axis.YP.rotationDegrees(cameraYRot + 180.0f));
+        poseStack.rotate(Axis.XP.rotationDegrees(cameraXRot));
+        poseStack.rotate(Axis.YP.rotationDegrees(cameraYRot + 180.0f));
         poseStack.translate(offset.x(), offset.y() + eye, offset.z());
-        poseStack.mulPose(Axis.YP.rotationDegrees(-cameraYRot - 180.0f));
-        poseStack.mulPose(Axis.XP.rotationDegrees(-cameraXRot));
+        poseStack.rotate(Axis.YP.rotationDegrees(-cameraYRot - 180.0f));
+        poseStack.rotate(Axis.XP.rotationDegrees(-cameraXRot));
     }
 }

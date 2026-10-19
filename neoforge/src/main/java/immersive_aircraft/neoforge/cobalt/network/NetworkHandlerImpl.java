@@ -23,7 +23,7 @@ import java.util.Objects;
 import java.util.function.Function;
 
 public class NetworkHandlerImpl extends NetworkHandler.Impl {
-    private static final String PROTOCOL_VERSION = "1";
+    private static final String PROTOCOL_VERSION = "26.3-local-2";
 
     private final Map<Class<?>, CustomPacketPayload.Type<CobaltPayload>> types = new HashMap<>();
     private final List<MessageRegistration<?>> registrations = new ArrayList<>();

@@ -2,12 +2,12 @@
   "pack": {
     "description": "Immersive Aircraft",
     "min_format": [
-      84,
-      0
+      97,
+      1
     ],
     "max_format": [
-      101,
-      1
+      121,
+      0
     ]
   }
 }

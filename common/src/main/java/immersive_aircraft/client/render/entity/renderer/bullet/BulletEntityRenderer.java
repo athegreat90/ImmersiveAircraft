@@ -43,8 +43,8 @@ public class BulletEntityRenderer<T extends BulletEntity> extends EntityRenderer
         matrixStack.pushPose();
         matrixStack.scale(state.scale, state.scale, state.scale);
         matrixStack.translate(0.0, 0.5, 0.0);
-        matrixStack.mulPose(this.entityRenderDispatcher.camera.rotation());
-        matrixStack.mulPose(Axis.YP.rotationDegrees(180.0f));
+        matrixStack.rotate(this.entityRenderDispatcher.camera.rotation());
+        matrixStack.rotate(Axis.YP.rotationDegrees(180.0f));
         PoseStack.Pose pose = matrixStack.last();
         Matrix4f matrix4f = pose.pose();
         VertexConsumer vertexConsumer = buffer.getBuffer(RENDER_TYPE);

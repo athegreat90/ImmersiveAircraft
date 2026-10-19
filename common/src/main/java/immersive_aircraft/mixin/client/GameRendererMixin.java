@@ -26,7 +26,7 @@ public abstract class GameRendererMixin {
     @Unique
     private DeltaTracker immersiveAircraft$deltaTracker;
 
-    @Inject(method = "renderLevel", at = @At("HEAD"))
+    @Inject(method = "update", at = @At("HEAD"))
     private void immersiveAircraft$captureDeltaTracker(DeltaTracker deltaTracker, CallbackInfo ci) {
         immersiveAircraft$deltaTracker = deltaTracker;
     }

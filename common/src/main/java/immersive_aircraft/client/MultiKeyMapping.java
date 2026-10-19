@@ -5,7 +5,6 @@ import immersive_aircraft.mixin.client.KeyMappingAccessorMixin;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -25,7 +24,7 @@ public class MultiKeyMapping extends KeyMapping {
     }
 
     public MultiKeyMapping(String translationKey, InputConstants.Type type, int code, Supplier<KeyMapping> fallbackKey, KeyMapping.Category category) {
-        super(translationKey, type, GLFW.GLFW_KEY_UNKNOWN, category);
+        super(translationKey, type, InputConstants.UNKNOWN.getValue(), category);
 
         this.fallbackKey = fallbackKey;
 

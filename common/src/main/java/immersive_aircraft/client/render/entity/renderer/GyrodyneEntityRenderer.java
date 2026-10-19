@@ -24,8 +24,8 @@ public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AircraftEn
                         float nx = (float) (Utils.cosNoise(time / 3.0)) * wind;
                         float ny = (float) (Utils.cosNoise(time / 4.0)) * wind;
 
-                        matrixStack.mulPose(Axis.XP.rotationDegrees(ny));
-                        matrixStack.mulPose(Axis.ZP.rotationDegrees(nx));
+                        matrixStack.rotate(Axis.XP.rotationDegrees(ny));
+                        matrixStack.rotate(Axis.ZP.rotationDegrees(nx));
                     }
             );
 

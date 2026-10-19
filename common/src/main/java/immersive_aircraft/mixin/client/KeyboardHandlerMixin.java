@@ -6,7 +6,7 @@ import immersive_aircraft.network.c2s.SeatChangeMessage;
 import net.minecraft.client.KeyboardHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.input.KeyEvent;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,15 +22,15 @@ public class KeyboardHandlerMixin {
     private void immersiveAircraft$selectSeat(long window, int action, KeyEvent event, CallbackInfo ci) {
         Minecraft client = Minecraft.getInstance();
         int key = event.key();
-        if (window != client.getWindow().handle() || key < GLFW.GLFW_KEY_1 || key > GLFW.GLFW_KEY_9) return;
+        if (window != client.getWindow().handle() || key < InputConstants.KEY_1 || key > InputConstants.KEY_9) return;
 
-        int seat = key - GLFW.GLFW_KEY_1;
+        int seat = key - InputConstants.KEY_1;
         int mask = 1 << seat;
-        if (action == GLFW.GLFW_RELEASE) {
+        if (action == InputConstants.RELEASE) {
             immersiveAircraft$seatKeys &= ~mask;
             return;
         }
-        if (action == GLFW.GLFW_REPEAT) {
+        if (action == InputConstants.REPEAT) {
             if ((immersiveAircraft$seatKeys & mask) != 0) {
                 ci.cancel();
             }
@@ -38,7 +38,7 @@ public class KeyboardHandlerMixin {
         }
 
         immersiveAircraft$seatKeys &= ~mask;
-        if ((event.modifiers() & GLFW.GLFW_MOD_CONTROL) == 0 || !client.isWindowActive() || client.gui.screen() != null
+        if ((event.modifiers() & InputConstants.MOD_CONTROL) == 0 || !client.isWindowActive() || client.gui.screen() != null
             || client.player == null || !(client.player.getVehicle() instanceof VehicleEntity vehicle)) return;
 
         immersiveAircraft$seatKeys |= mask;

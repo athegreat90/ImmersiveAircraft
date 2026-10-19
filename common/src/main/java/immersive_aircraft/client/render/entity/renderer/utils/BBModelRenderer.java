@@ -47,7 +47,7 @@ public class BBModelRenderer {
 
                 Vector3f rotation = animation.sample(object.uuid, BBAnimator.Channel.ROTATION, time);
                 rotation.mul(1.0f / 180.0f * (float) Math.PI);
-                matrixStack.mulPose(Utils.fromXYZ(rotation));
+                matrixStack.rotate(Utils.fromXYZ(rotation));
 
                 Vector3f scale = animation.sample(object.uuid, BBAnimator.Channel.SCALE, time);
                 matrixStack.scale(scale.x(), scale.y(), scale.z());
@@ -55,7 +55,7 @@ public class BBModelRenderer {
         }
 
         // Apply object rotation
-        matrixStack.mulPose(Utils.fromXYZ(object.rotation));
+        matrixStack.rotate(Utils.fromXYZ(object.rotation));
 
         // Apply additional, complex animations
         if (object instanceof BBBone bone && modelPartRenderer != null) {

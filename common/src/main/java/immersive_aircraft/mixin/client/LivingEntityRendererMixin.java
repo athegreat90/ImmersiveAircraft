@@ -41,17 +41,17 @@ public class LivingEntityRendererMixin<T extends LivingEntity, S extends LivingE
 
         // Tilt in vehicle axes even when the passenger faces sideways.
         float relativeYaw = bodyYaw - passengerState.immersive_aircraft$getVehicleYRot();
-        poseStack.mulPose(Axis.YP.rotationDegrees(relativeYaw));
-        poseStack.mulPose(Axis.XP.rotationDegrees(-vehicleXRot));
-        poseStack.mulPose(Axis.ZP.rotationDegrees(-vehicleZRot));
-        poseStack.mulPose(Axis.YP.rotationDegrees(-relativeYaw));
+        poseStack.rotate(Axis.YP.rotationDegrees(relativeYaw));
+        poseStack.rotate(Axis.XP.rotationDegrees(-vehicleXRot));
+        poseStack.rotate(Axis.ZP.rotationDegrees(-vehicleZRot));
+        poseStack.rotate(Axis.YP.rotationDegrees(-relativeYaw));
 
         PassengerPositionDescriptor position = passengerState.immersive_aircraft$getPassengerPosition();
         if (position != null) {
             float pivot = position.posture() == PassengerPosture.SEATED ? 0.6f : 0.0f;
             poseStack.translate(0.0f, pivot, 0.0f);
-            poseStack.mulPose(Axis.XP.rotation(-position.pitch()));
-            poseStack.mulPose(Axis.ZP.rotation(-position.roll()));
+            poseStack.rotate(Axis.XP.rotation(-position.pitch()));
+            poseStack.rotate(Axis.ZP.rotation(-position.roll()));
             poseStack.translate(0.0f, -pivot, 0.0f);
         }
     }

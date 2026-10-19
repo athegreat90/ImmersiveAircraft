@@ -15,7 +15,7 @@ def getAppVersion = { ->
 
 allprojects {
     group = rootProject.group_id
-    version = getAppVersion()
+    version = rootProject.findProperty("local_port_version") ?: getAppVersion()
 }
 
 subprojects {

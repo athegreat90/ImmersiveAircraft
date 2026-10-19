@@ -24,8 +24,8 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends I
     public void renderLocal(T entity, float yaw, float tickDelta, PoseStack matrixStack, PoseStack.Pose peek, DeferredRenderBuffer vertexConsumerProvider, int light) {
         // Wind effect
         Vector3f effect = entity.onGround() ? new Vector3f(0.0f, 0.0f, 0.0f) : entity.getWindEffect();
-        matrixStack.mulPose(Axis.XP.rotationDegrees(effect.z));
-        matrixStack.mulPose(Axis.ZP.rotationDegrees(effect.x));
+        matrixStack.rotate(Axis.XP.rotationDegrees(effect.z));
+        matrixStack.rotate(Axis.ZP.rotationDegrees(effect.x));
 
         super.renderLocal(entity, yaw, tickDelta, matrixStack, peek, vertexConsumerProvider, light);
 

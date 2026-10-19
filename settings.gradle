@@ -28,5 +28,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "immersive-aircraft"
 
-include("fabric")
+// Private compatibility port: leave Fabric sources intact without configuring it.
 include("neoforge")
